@@ -1,0 +1,13 @@
+Version 0.1.0
+
+Initial release
+Forked from Asido
+
+* Make use of PEAR coding standards
+* Use class consts instead of defines
+* Use exceptions instead of errors
+* Pitlib::driver try to find the best available driver
+* Pitlib_Image operations chaining
+* Netpbm driver
+* phpunit tests
+

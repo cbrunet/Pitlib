@@ -1,0 +1,81 @@
+PHP Image Transformation Library - Pitlib
+http://cbrunet.net/pitlib
+
+- a fork from Asido
+Version 0.1.0 alpha
+
+By Charles Brunet <cbrunet@php.net>
+
+== INSTALLATION ==
+
+You only need files located into lib/ directory.
+Copy them somewhere accessible from your PHP script.
+
+To use Pitlib, simply include Pitlib.php file into your code, e.g.:
+
+ require_once 'Pitlib.php';
+
+You will need some additional programs or libraries to use some Pitlib drivers.
+
+On Debian/Ubuntu, you need:
+
+* php5-gd        : for 'gd' or 'gd_hack' driver;
+* netpbm         : for 'netpbm_shell' driver;
+* php5-imagick   : for 'imagick_ext' or 'imagick_ext_hack' driver;
+* imagemagick    : for 'imagick_shell' or 'imagick_shell_hack' driver;
+* graphicsmagick : for 'graphicsmagick_shell' driver;
+
+== USING PITLIB ==
+
+Example 1: simple image conversion
+
+<?php
+
+// include Pitlib library
+require_once 'Pitlib.php';
+
+try {
+    // load 'gd' driver.
+    // Calling Pitlib::driver (); would try to find best available driver.
+    Pitlib::driver ('gd');
+    
+    // Load source image and set target destination
+    $image = Pitlib::image ('source.jpg', 'target.png');
+    
+    // Perform the operation
+    $image->save (Pitlib::OVERWRITE_ENABLED);
+}
+catch (Pitlib_Exception $e) {
+    echo $e->getMessage ();
+}
+
+?>
+
+== GENERATION DOC ==
+
+To generate API documentation, you need PhpDocumentor. More info at http://www.phpdoc.org
+
+To install PhpDocumentor, you just need to use PEAR
+
+$ pear install PhpDocumentor
+
+To generate documentation, type
+
+$ phpdoc -c doc/default.ini
+
+== TESTING ==
+
+To run test suite, you will need an installation of PHPUnit.
+The easiest way to install PHPUnit is using pear.
+
+$ pear channel-discover pear.phpunit.de
+$ pear install phpunit/PHPUnit
+
+
+To run test suite, simple do
+
+ phpunit Test/phpunit/AllTests.php
+
+from within Pitlib directory. Some tests cannot be executed if specific
+drivers cannot be loaded. 
+
