@@ -1,4 +1,4 @@
- => Pitlib_Type::PCX<?php
+<?php
 // vim: tabstop=4: expandtab: sts=4: ai: sw=4:
 
 /**
