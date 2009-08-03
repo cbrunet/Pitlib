@@ -19,11 +19,11 @@ You will need some additional programs or libraries to use some Pitlib drivers.
 
 On Debian/Ubuntu, you need:
 
-* php5-gd        : for 'gd' or 'gd_hack' driver;
-* netpbm         : for 'netpbm_shell' driver;
-* php5-imagick   : for 'imagick_ext' or 'imagick_ext_hack' driver;
-* imagemagick    : for 'imagick_shell' or 'imagick_shell_hack' driver;
-* graphicsmagick : for 'graphicsmagick_shell' driver;
+* php5-gd        : for 'gd' driver;
+* netpbm         : for 'netpbm' driver;
+* php5-imagick   : for 'imagick_ext' driver;
+* imagemagick    : for 'imagick_shell' driver;
+* graphicsmagick : for 'gmagick_shell' driver;
 
 == USING PITLIB ==
 
