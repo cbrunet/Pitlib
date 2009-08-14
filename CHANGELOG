@@ -1,8 +1,11 @@
-Version 0.2.0
+Version 0.2.0 (2009-08-14)
 
 * GraphicsMagick Shell driver
+* Target filename now is set by save function instead of Pitlib::image.
+* Removed static image manipulation functions from Pitlib class.
+* Added exifRotate function.
 
-Version 0.1.0
+Version 0.1.0 (2009-07-20)
 
 Initial release
 Forked from Asido

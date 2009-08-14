@@ -7,7 +7,7 @@
  *    GNU Lesser General Public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Driver
- * @version 0.1.0
+ * @version 0.2.0
  *
  * @todo set compression for jpeg and png
  */

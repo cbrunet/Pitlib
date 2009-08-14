@@ -49,9 +49,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
         $color = Pitlib::color (110, 120, 130);
 
         try {
-            Pitlib::image (SOURCE.'png', TARGET.'png')
+            Pitlib::image (SOURCE.'png')
             ->frame (120, 120, $color)
-            ->save ();
+            ->save (TARGET.'png');
         }
         catch (Pitlib_Exception_OperationNotSupported $e) {
             $this->markTestSkipped ();
@@ -76,9 +76,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
 
         // Default BOTTOM_RIGHT AT 0.25
         try {
-            Pitlib::image (SOURCE.'png', TARGET.'png')
+            Pitlib::image (SOURCE.'png')
             ->watermark (SOURCE.'png')
-            ->save ();
+            ->save (TARGET.'png');
         }
         catch (Pitlib_Exception_OperationNotSupported $e) {
             $this->markTestSkipped ();
@@ -90,10 +90,10 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
         unlink (TARGET.'png');
 
         // BOTTOM_RIGHT NO SCALE
-        $image = Pitlib::image (SOURCE.'png', TARGET.'png')
+        $image = Pitlib::image (SOURCE.'png')
         ->watermark (CIRCLE, Pitlib::WATERMARK_BOTTOM_RIGHT,
             Pitlib::WATERMARK_SCALABLE_DISABLED)
-        ->save ();
+        ->save (TARGET.'png');
         copy (TARGET.'png', RESULT_DIR. Pitlib::driver ()->name ().'.watermark2.png');
         $this->assertPngImageColor (TARGET.'png', 55, 55, 255, 255, 255);
         $this->assertPngImageColor (TARGET.'png', 76, 76, 0, 255, 0);
@@ -105,9 +105,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
     function testGrayscale () {
         $this->emptyTmpDir ();
         try {
-            Pitlib::image (SOURCE.'png', TARGET.'png')
+            Pitlib::image (SOURCE.'png')
             ->grayscale ()
-            ->save ();
+            ->save (TARGET.'png');
         }
         catch (Pitlib_Exception_OperationNotSupported $e) {
             $this->markTestSkipped ();
@@ -127,9 +127,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
 
         $color = Pitlib::color (255, 0, 255);
         try {
-            Pitlib::image (SOURCE.'png', TARGET.'png')
+            Pitlib::image (SOURCE.'png')
             ->rotate (45, $color)
-            ->save ();
+            ->save (TARGET.'png');
         }
         catch (Pitlib_Exception_OperationNotSupported $e) {
             $this->markTestSkipped ();
@@ -146,9 +146,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
         // Test at 30 degrees
         $color = Pitlib::color (255, 0, 255);
         try {
-            Pitlib::image (SOURCE.'png', TARGET.'png')
+            Pitlib::image (SOURCE.'png')
             ->rotate (30, $color)
-            ->save ();
+            ->save (TARGET.'png');
         }
         catch (Pitlib_Exception_OperationNotSupported $e) {
             $this->markTestSkipped ();
@@ -170,9 +170,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
         $this->emptyTmpDir ();
 
         try {
-            Pitlib::image (SOURCE.'png', TARGET.'png')
+            Pitlib::image (SOURCE.'png')
             ->rotate (90)
-            ->save ();
+            ->save (TARGET.'png');
         }
         catch (Pitlib_Exception_OperationNotSupported $e) {
             $this->markTestSkipped ();
@@ -186,9 +186,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
         $this->assertPngImageColor (TARGET.'png', 99, 99, 0, 0, 255, '', 1);
         unlink (TARGET.'png');
 
-        Pitlib::image (SOURCE.'png', TARGET.'png')
+        Pitlib::image (SOURCE.'png')
         ->rotate (-90)
-        ->save ();
+        ->save (TARGET.'png');
         copy (TARGET.'png', RESULT_DIR. Pitlib::driver ()->name ().'.rotate-90.png');
 
         $this->assertPngImageColor (TARGET.'png', 0, 0, 0, 0, 255);
@@ -197,9 +197,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
         $this->assertPngImageColor (TARGET.'png', 99, 99, 255, 255, 0);
         unlink (TARGET.'png');
 
-        Pitlib::image (SOURCE.'png', TARGET.'png')
+        Pitlib::image (SOURCE.'png')
         ->rotate (180)
-        ->save ();
+        ->save (TARGET.'png');
         copy (TARGET.'png', RESULT_DIR. Pitlib::driver ()->name ().'.rotate180.png');
         $this->assertPngImageColor (TARGET.'png', 0, 0, 255, 255, 255);
         $this->assertPngImageColor (TARGET.'png', 99, 0, 255, 255, 0);
@@ -214,9 +214,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
         $this->emptyTmpDir ();
 
         try {
-            Pitlib::image (SOURCE.'png', TARGET.'png')
+            Pitlib::image (SOURCE.'png')
             ->copy (CIRCLE, 25, 25)
-            ->save ();
+            ->save (TARGET.'png');
         }
         catch (Pitlib_Exception_OperationNotSupported $e) {
             $this->markTestSkipped ();
@@ -235,9 +235,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
     function testCrop () {
         $this->emptyTmpDir ();
         try {
-            Pitlib::image (SOURCE.'png', TARGET.'png')
+            Pitlib::image (SOURCE.'png')
             ->crop (0, 0, 50, 50)
-            ->save ();
+            ->save (TARGET.'png');
         }
         catch (Pitlib_Exception_OperationNotSupported $e) {
             $this->markTestSkipped ();
@@ -251,9 +251,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
 
         unlink (TARGET.'png');
         
-        Pitlib::image (SOURCE.'png', TARGET.'png')
+        Pitlib::image (SOURCE.'png')
         ->crop (50, 50, 50, 50)
-        ->save ();
+        ->save (TARGET.'png');
         copy (TARGET.'png', RESULT_DIR. Pitlib::driver ()->name ().'.crop2.png');
 
         $this->assertImageSize (TARGET.'png', 50, 50);
@@ -268,9 +268,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
         $this->emptyTmpDir ();
         
         try {
-            Pitlib::image (SOURCE.'png', TARGET.'png')
+            Pitlib::image (SOURCE.'png')
             ->flip ()
-            ->save ();
+            ->save (TARGET.'png');
         }
         catch (Pitlib_Exception_OperationNotSupported $e) {
             $this->markTestSkipped ();
@@ -285,9 +285,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
 
         unlink (TARGET.'png');
 
-        Pitlib::image (SOURCE.'png', TARGET.'png')
+        Pitlib::image (SOURCE.'png')
         ->flop ()
-        ->save ();
+        ->save (TARGET.'png');
         copy (TARGET.'png', RESULT_DIR. Pitlib::driver ()->name ().'.flop.png');
 
         $this->assertPngImageColor (TARGET.'png', 0, 0, 0, 0, 255);
@@ -303,13 +303,13 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
 
     function doConvertTest ($src, $dst, $type=null) {
         
-        $image = Pitlib::image ($src, $dst);
+        $image = Pitlib::image ($src);
         
         if ($type) {
             $image->convert ($type);
         }
 
-        $image->save ();
+        $image->save ($dst);
 
         // $dst file exists
         $this->assertFileExists ($dst);
@@ -329,9 +329,9 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
     }
 
     function doResizeTest ($w, $h, $t, $ew, $eh) {
-        Pitlib::image (SOURCE.'png', TARGET.'png')
+        Pitlib::image (SOURCE.'png')
         ->resize ($w, $h, $t)
-        ->save ();
+        ->save (TARGET.'png');
         
         $this->assertImageSize (TARGET.'png', $ew, $eh);
 

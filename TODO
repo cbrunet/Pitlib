@@ -1,5 +1,4 @@
 * pass phpcs test
-* generate PhpDocumentor doc
 * gm driver
 * borders
 * lines, rect, ellipses

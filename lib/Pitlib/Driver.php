@@ -8,7 +8,7 @@
  *    GNU Lesser General public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Driver
- * @version $Id: class.driver.php 17 2007-12-05 11:57:55Z Mrasnika $
+ * @version 0.2.0
  */
 
 /////////////////////////////////////////////////////////////////////////////
@@ -390,6 +390,41 @@ abstract Class Pitlib_Driver {
         }
 
         return $this->__rotate($tmp, $angle, $color);
+    }
+
+    /**
+     * Rotate the image according to the given EXIF orientation
+     *
+     * @param Pitlib_Tmp $tmp
+     * @param integer $orientation
+     */
+    public function exifRotate (Pitlib_Tmp $tmp, $orientation) {
+        switch ($orientation) {
+            case 2:
+                $this->__flop ($tmp);
+                break;
+            case 3:
+                $this->__rotate ($tmp, 180);
+                break;
+            case 4:
+                $this->__flop ($tmp);
+                $this->__rotate ($tmp, 180);
+                break;
+            case 5:
+                $this->__flop ($tmp);
+                $this->__rotate ($tmp, 90);
+                break;
+            case 6:
+                $this->__rotate ($tmp, 90);
+                break;
+            case 7:
+                $this->__flop ($tmp);
+                $this->__rotate ($tmp, 270);
+                break;
+            case 8:
+                $this->__rotate ($tmp, 270);
+                break;
+        }
     }
 
     /**

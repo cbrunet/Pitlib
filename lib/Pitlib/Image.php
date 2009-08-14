@@ -8,7 +8,7 @@
  *    GNU Lesser General public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Core
- * @version 0.1.0
+ * @version 0.2.0
  */
 
 /////////////////////////////////////////////////////////////////////////////
@@ -181,6 +181,7 @@ class Pitlib_Image {
     /**
      * Save the image after being processed
      *
+     * @param string $target target image for the image operations
      * @param mixed $overwrite_mode if this mode is ON 
      *		({@link Pitlib::OVERWRITE_ENABLED}), and there is already a file 
      *		with the same as the target, this method will throw a 
@@ -190,7 +191,9 @@ class Pitlib_Image {
      *
      * @access public
      */
-    public function save($overwrite_mode = Pitlib::OVERWRITE_DISABLED) {
+    public function save($target = null, $overwrite_mode = Pitlib::OVERWRITE_DISABLED) {
+        
+        $this->target ($target);
 
         // check files
         //
@@ -586,6 +589,34 @@ class Pitlib_Image {
                     )
                 );
         return $this;
+    }
+
+    /**
+     * Rotate an image according to given exif rotation code.
+     *
+     * You can obtain EXIF rotation information from a JPEG image using
+     * the following function:
+     * <pre>
+     * $exif = exif_read_data ('image.jpg', 'IFD0');
+     * $orientation = $exif['Orientation'];
+     * </pre>
+     *
+     * @param integer $orientation A number from 1 to 8 giving the image
+     *        orientation.
+     *
+     * @return Pitlib_Image
+     */
+    public function exifRotate ($orientation) {
+        $d = Pitlib::driver ();
+        $this->operation(
+                array ($d, __FUNCTION__),
+                array (
+                    'tmp'   => null,
+                    'orientation' => $orientation
+                    )
+                );
+        return $this;
+
     }
 
    /**

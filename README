@@ -2,7 +2,7 @@ PHP Image Transformation Library - Pitlib
 http://cbrunet.net/pitlib
 
 - a fork from Asido
-Version 0.1.0 alpha
+Version 0.2.0 alpha
 
 By Charles Brunet <cbrunet@php.net>
 
@@ -40,10 +40,10 @@ try {
     Pitlib::driver ('gd');
     
     // Load source image and set target destination
-    $image = Pitlib::image ('source.jpg', 'target.png');
+    $image = Pitlib::image ('source.jpg');
     
     // Perform the operation
-    $image->save (Pitlib::OVERWRITE_ENABLED);
+    $image->save ('target.png', Pitlib::OVERWRITE_ENABLED);
 }
 catch (Pitlib_Exception $e) {
     echo $e->getMessage ();

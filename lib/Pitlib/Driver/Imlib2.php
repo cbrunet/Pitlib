@@ -8,7 +8,7 @@
  * @license http://opensource.org/licenses/lgpl-license.php
  *    GNU Lesser General public License Version 2.1
  * @subpackage Pitlib.Driver
- * @version 0.1.0
+ * @version 0.2.0
  *
  * @todo grayscale function
  */
