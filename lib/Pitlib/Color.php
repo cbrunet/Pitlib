@@ -2,6 +2,18 @@
 // vim: tabstop=4: expandtab: sts=4: ai: sw=4:
 
 /**
+ * @author Charles Brunet <cbrunet@php.net>
+ * @author Kaloyan K. Tsvetkov <kaloyan@kaloyan.info>
+ * @license http://opensource.org/licenses/lgpl-license.php
+ *     GNU Lesser General public License Version 2.1
+ * @package Pitlib
+ * @subpackage Pitlib.Core
+ * @version 0.3.0
+ */
+
+/////////////////////////////////////////////////////////////////////////////
+
+/**
  * Pitlib Color
  *
  * This class stores common color-related routines
@@ -72,6 +84,16 @@ Class Pitlib_Color {
                 $this->_alpha
                 );
     }
+	
+	/**
+	 * Get the stored color, in ImageMagick "rgb(xxx, xxx, xxx)" format
+	 *
+	 * @return string Color identifier
+	 * @access public
+	 */
+	public function imagick() {
+		return sprintf('rgb(%d, %d, %d)', $this->_red, $this->_green, $this->_blue);
+	}
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 

@@ -13,7 +13,7 @@
  *
  * @package Pitlib
  * @subpackage Pitlib.Core
- * @version 0.2.0
+ * @version 0.3.0
  */
 
 /////////////////////////////////////////////////////////////////////////////
@@ -318,7 +318,7 @@ public static $TEMPDIR = -1;
      * @static
      */
     public static function version() {
-        return '0.2.0';
+        return '0.3.0';
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
@@ -346,12 +346,13 @@ public static $TEMPDIR = -1;
             }
             else {
                 $drivers = array(
-                    'gd',
-                    'imagick_ext', 
-                    'magick_wand',
+                    'imagick_ext',
+                    'magickwand',
+                                        'gmagick_shell',
+                                        'imagick_shell',
+                                        'gd',
                     'imlib2',
-                    'imagick_shell',
-                    'netbpm_shell',
+                    'netbpm',
                 );
             }
         }
@@ -359,17 +360,23 @@ public static $TEMPDIR = -1;
             $drivers = array ($drivers);
         }
 
+                $excep = null;
         foreach ($drivers as $driver_name) {
             try {
                 $d =& Pitlib::_driver ($driver_name);
                 return $d;
             }
             catch (Pitlib_Exception $e) {
-                echo $e->getMessage ();
+                                $excep = $e;
+                // echo $e->getMessage ();
                 // Error loading driver...
                 // trigger notice...
             }
         }
+                
+                if ($excep) {
+                        throw $excep;
+                }
         
         throw new Pitlib_Exception ('No suitable driver found.');
     }
@@ -584,9 +591,9 @@ public static $TEMPDIR = -1;
      * @access public
      * @static
      */
-    public static function color($red, $green, $blue) {
+    public static function color($red, $green, $blue, $alpha = 0) {
         $color = new Pitlib_Color;
-        $color->set($red, $green, $blue);
+        $color->set($red, $green, $blue, $alpha);
         return $color;
     }
 

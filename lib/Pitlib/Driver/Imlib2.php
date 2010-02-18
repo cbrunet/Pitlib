@@ -8,7 +8,7 @@
  * @license http://opensource.org/licenses/lgpl-license.php
  *    GNU Lesser General public License Version 2.1
  * @subpackage Pitlib.Driver
- * @version 0.2.0
+ * @version 0.3.0
  *
  * @todo grayscale function
  */
@@ -269,6 +269,52 @@ class Pitlib_Driver_Imlib2 extends Pitlib_Driver {
         return true;
     }
 
+	/**
+     * Make rounded corners to the image
+     * 
+     * @param integer      $radius   radius of the rounded corner
+     * @param Pitlib_Color $color    background color
+     * @return Pitlib_Image
+     *
+     * @access public
+     */
+    protected function __roundedCorner (Pitlib_Tmp $tmp, $radius,
+			Pitlib_Color $color) {
+        
+		/*
+		$t = imlib_create_image($tmp->image_width, $tmp->image_height);
+		imlib_image_fill_rectangle($t,
+                0, 0, $tmp->image_width, $tmp->image_height,
+                0, 0, 0, 0);
+		
+		imlib_image_fill_rectangle($t,
+                $radius, 0, $tmp->image_width - $radius - $radius, $tmp->image_height,
+                255, 255, 255, 255);
+		imlib_image_fill_rectangle($t,
+                0, $radius, $tmp->image_width, $tmp->image_height - $radius - $radius,
+                255, 255, 255, 255);
+		imlib_image_fill_ellipse($t,
+                $radius+1, $radius, $radius-1, $radius-1,
+                255, 255, 255, 255);
+		imlib_image_fill_ellipse($t,
+                $radius+1, $tmp->image_height - $radius, $radius-1, $radius-1,
+                255, 255, 255, 255);
+		imlib_image_fill_ellipse($t,
+                $tmp->image_width - $radius-1, $radius, $radius-1, $radius-1,
+                255, 255, 255, 255);
+		imlib_image_fill_ellipse($t,
+                $tmp->image_width - $radius-1, $tmp->image_height - $radius, $radius-1, $radius-1,
+                255, 255, 255, 255);
+		
+
+		
+		//imlib_free_image($t);
+		
+		$tmp->target = $t;*/
+		
+		return parent::__roundedCorner ($tmp, $radius, $color);
+    }
+	
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 
     /**
@@ -285,12 +331,12 @@ class Pitlib_Driver_Imlib2 extends Pitlib_Driver {
         $t = new Pitlib_Tmp;
         $t->target = imlib_create_image($width, $height);
 
-        list($r, $g, $b) = $color->get();
+        list($r, $g, $b, $a) = $color->get();
         imlib_image_fill_rectangle(
                 $t->target,
                 0, 0, 
                 $width, $height,
-                $r, $g, $b, 255
+                $r, $g, $b, $a
                 );
         $t->image_width = $width;
         $t->image_height = $height;

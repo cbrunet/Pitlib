@@ -7,7 +7,7 @@
  *    GNU Lesser General public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Driver
- * @version 0.2.0
+ * @version 0.3.0
  *
  * @todo Support newer versions of netpbm
  * @todo Detect NetPBM version
@@ -101,25 +101,25 @@ class Pitlib_Driver_Netpbm extends Pitlib_Driver_Shell {
      */
     protected $__readconv = array (
             Pitlib_Type::BMP  => 'bmptopnm',
-			Pitlib_Type::FAX  => 'g3topbm',
-			Pitlib_Type::FITS => 'fitstopnm',
+            Pitlib_Type::FAX  => 'g3topbm',
+            Pitlib_Type::FITS => 'fitstopnm',
             Pitlib_Type::GIF  => 'giftopnm',
-			Pitlib_Type::JPEG => 'jpegtopnm',
-			Pitlib_Type::ICO  => 'winicontoppm', //'winicontopnm',
-			Pitlib_Type::MTV  => 'mtvtoppm',
-			Pitlib_Type::P7   => 'xvminitoppm',
-			Pitlib_Type::PALM => 'palmtopnm',
-			Pitlib_Type::PBM  => '',
-			Pitlib_Type::PCD  => 'hpcdtoppm',
+            Pitlib_Type::JPEG => 'jpegtopnm',
+            Pitlib_Type::ICO  => 'winicontoppm', //'winicontopnm',
+            Pitlib_Type::MTV  => 'mtvtoppm',
+            Pitlib_Type::P7   => 'xvminitoppm',
+            Pitlib_Type::PALM => 'palmtopnm',
+            Pitlib_Type::PBM  => '',
+            Pitlib_Type::PCD  => 'hpcdtoppm',
             Pitlib_Type::PCX  => 'pcxtoppm',
-			Pitlib_Type::PGM  => '',
-			Pitlib_Type::PICT => 'picttoppm',
-			Pitlib_Type::PNG  => 'pngtopnm',
-			Pitlib_Type::RLA  => 'rlatopam',
-			Pitlib_Type::TGA  => 'tgatoppm',
-			Pitlib_Type::TIFF => 'tifftopnm',
-			Pitlib_Type::XPM  => 'xpmtoppm',
-			Pitlib_Type::XBM  => 'xbmtopbm',
+            Pitlib_Type::PGM  => '',
+            Pitlib_Type::PICT => 'picttoppm',
+            Pitlib_Type::PNG  => 'pngtopnm',
+            Pitlib_Type::RLA  => 'rlatopam',
+            Pitlib_Type::TGA  => 'tgatoppm',
+            Pitlib_Type::TIFF => 'tifftopnm',
+            Pitlib_Type::XPM  => 'xpmtoppm',
+            Pitlib_Type::XBM  => 'xbmtopbm',
             );
 
     /**
@@ -128,24 +128,24 @@ class Pitlib_Driver_Netpbm extends Pitlib_Driver_Shell {
      */
     protected $__writeconv = array (
             Pitlib_Type::BMP  => 'ppmtobmp',
-			Pitlib_Type::DJVU => 'pamtodjvurle',
-			Pitlib_Type::FAX  => 'pbmtog3',
-			Pitlib_Type::FITS => 'pnmtofits', //'pamtofits',
+            Pitlib_Type::DJVU => 'pamtodjvurle',
+            Pitlib_Type::FAX  => 'pbmtog3',
+            Pitlib_Type::FITS => 'pnmtofits', //'pamtofits',
             Pitlib_Type::GIF  => 'ppmtogif', // 'pamtogif',
-			Pitlib_Type::JPEG => 'pnmtojpeg',
-			Pitlib_Type::ICO  => 'ppmtowinicon',
-			Pitlib_Type::P7   => 'pamtoxvmini',
-			Pitlib_Type::PALM => 'pnmtopalm',
-			Pitlib_Type::PBM  => 'pgmtoppm', // 'pamditherbw',
+            Pitlib_Type::JPEG => 'pnmtojpeg',
+            Pitlib_Type::ICO  => 'ppmtowinicon',
+            Pitlib_Type::P7   => 'pamtoxvmini',
+            Pitlib_Type::PALM => 'pnmtopalm',
+            Pitlib_Type::PBM  => 'pgmtoppm', // 'pamditherbw',
             Pitlib_Type::PCX  => 'ppmtopcx',
-			Pitlib_Type::PGM  => 'ppmtopgm',
-			Pitlib_Type::PICT => 'ppmtopict',
-			Pitlib_Type::PNG  => 'pnmtopng',
+            Pitlib_Type::PGM  => 'ppmtopgm',
+            Pitlib_Type::PICT => 'ppmtopict',
+            Pitlib_Type::PNG  => 'pnmtopng',
             Pitlib_Type::SVG  => 'pamtosvg',
-			Pitlib_Type::TGA  => 'pamtotga',
-			Pitlib_Type::TIFF => 'pamtotiff',
-			Pitlib_Type::XPM  => 'ppmtoxpm',
-			Pitlib_Type::XBM  => 'pbmtoxbm',
+            Pitlib_Type::TGA  => 'pamtotga',
+            Pitlib_Type::TIFF => 'pamtotiff',
+            Pitlib_Type::XPM  => 'ppmtoxpm',
+            Pitlib_Type::XBM  => 'pbmtoxbm',
             );
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
@@ -159,8 +159,10 @@ class Pitlib_Driver_Netpbm extends Pitlib_Driver_Shell {
         if (PITLIB_NETPBM_SHELL_PATH) {
             $this->__exec = PITLIB_NETPBM_SHELL_PATH;
         } else {
-            $this->__exec = dirname($this->__exec('ppmmake')) .
-                DIRECTORY_SEPARATOR;
+            $this->__exec = $this->__exec('ppmmake');
+            if (FALSE !== $this->__exec) {
+                $this->__exec = dirname($this->__exec) . DIRECTORY_SEPARATOR;
+            }
         }
     }
 
@@ -529,8 +531,8 @@ class Pitlib_Driver_Netpbm extends Pitlib_Driver_Shell {
      *
      * @param mixed &$handler
      * @param string $filename the filename will be automatically generated 
-     *	on the fly, but if you want you can use the filename provided by 
-     *	this argument
+     *  on the fly, but if you want you can use the filename provided by 
+     *  this argument
      * @return Pitlib_Tmp
      * @access protected
      */
@@ -750,7 +752,7 @@ class Pitlib_Driver_Netpbm extends Pitlib_Driver_Shell {
     }
 
 
-    //--end-of-class--	
+    //--end-of-class--  
 }
 
 /////////////////////////////////////////////////////////////////////////////

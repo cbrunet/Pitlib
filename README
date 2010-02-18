@@ -2,7 +2,7 @@ PHP Image Transformation Library - Pitlib
 http://cbrunet.net/pitlib
 
 - a fork from Asido
-Version 0.2.0 alpha
+Version 0.3.0 alpha
 
 By Charles Brunet <cbrunet@php.net>
 
@@ -24,6 +24,9 @@ On Debian/Ubuntu, you need:
 * php5-imagick   : for 'imagick_ext' driver;
 * imagemagick    : for 'imagick_shell' driver;
 * graphicsmagick : for 'gmagick_shell' driver;
+* php-imlib      : for 'imlib2' driver. You will also need to load it in php.ini;
+
+For 'magickwand' driver, see below...
 
 == USING PITLIB ==
 
@@ -65,6 +68,9 @@ $ phpdoc -c doc/default.ini
 
 == TESTING ==
 
+To know what drivers are available on you system, run
+$ php Test/driver.php
+
 To run test suite, you will need an installation of PHPUnit.
 The easiest way to install PHPUnit is using pear.
 
@@ -78,4 +84,22 @@ To run test suite, simple do
 
 from within Pitlib directory. Some tests cannot be executed if specific
 drivers cannot be loaded. 
+
+
+== INSTALLING MagickWand ON UBUNTU ==
+
+$ sudo aptitude install subversion php5-dev  imagemagick php5-imagick libmagick9-dev
+$ svn co https://www.imagemagick.org/subversion/MagickWandForPHP/branches/MagickWandForPHP-1.0.8 MagickWandForPHP-1.0.8
+$ cd MagickWandForPHP-1.0.8
+$ phpize
+$ autoconf
+$ ./configure
+$ make
+$ sudo make install
+
+Create file /etc/php5/cond.d/magickwand.ini:
+extension=magickwand.so
+
+Restart apache2
+
 

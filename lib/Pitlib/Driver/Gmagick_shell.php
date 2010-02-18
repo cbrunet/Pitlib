@@ -7,7 +7,7 @@
  *    GNU Lesser General Public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Driver
- * @version 0.2.0
+ * @version 0.3.0
  *
  * @todo set compression for jpeg and png
  */
@@ -126,8 +126,10 @@ class Pitlib_Driver_Gmagick_Shell extends Pitlib_Driver_Shell {
             $this->__exec = PITLIB_GMAGICK_SHELL_PATH;
         }
         else {
-            $this->__exec = dirname($this->__exec('gm')) . 
-                DIRECTORY_SEPARATOR;
+            $this->__exec = $this->__exec('gm');
+			if (FALSE !== $this->__exec) {
+				$this->__exec = dirname($this->__exec) . DIRECTORY_SEPARATOR;
+			}
         }
     }
 
@@ -444,6 +446,46 @@ class Pitlib_Driver_Gmagick_Shell extends Pitlib_Driver_Shell {
                 );
 
         exec($cmd, $result, $errors);
+        return ($errors == 0);
+    }
+	
+	/**
+     * Make rounded corners to the image
+     * 
+     * @param integer      $radius   radius of the rounded corner
+     * @param Pitlib_Color $color    background color
+     * @return Pitlib_Image
+     *
+     * @access public
+     */
+    protected function __roundedCorner (Pitlib_Tmp $tmp, $radius,
+			Pitlib_Color $color) {
+		
+		$t = $this->__canvas($tmp->image_width, $tmp->image_height, Pitlib::Color(255, 255, 255));
+		$cmd = $this->__command(
+                'gm convert',
+				"-size " . $t->image_width . "x" . $t->image_height
+				. " xc:black"
+                . " -draw 'fill white roundRectangle 0,0 "
+				. $t->image_width . "," . $t->image_height . " "
+				. $radius . "," . $radius . "' "
+				. "PNG:"
+                . escapeshellarg(realpath($t->target))
+                );
+		exec($cmd, $result, $errors);
+		
+        $cmd = $this->__command(
+                'gm composite',
+				escapeshellarg(realpath($t->target)) . " "
+				. escapeshellarg(realpath($tmp->target)) . " "
+                . " +matte -compose CopyOpacity "
+                . escapeshellarg(realpath($tmp->target))
+                );
+
+        exec($cmd, $result, $errors);
+		
+		$this->__destroy_target($t);
+		
         return ($errors == 0);
     }
 

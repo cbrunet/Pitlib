@@ -8,7 +8,7 @@
  *    GNU Lesser General public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Core
- * @version 0.2.0
+ * @version 0.3.0
  */
 
 /////////////////////////////////////////////////////////////////////////////

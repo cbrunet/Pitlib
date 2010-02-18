@@ -8,7 +8,7 @@
  *     GNU Lesser General Public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Driver
- * @version 0.2.0
+ * @version 0.3.0
  */
 
 /////////////////////////////////////////////////////////////////////////////
@@ -197,10 +197,9 @@ Class Pitlib_Driver_Magickwand Extends Pitlib_Driver {
             return true;
         }
 
-        list($r, $g, $b) = $color->get();
         $ret = MagickRotateImage(
                 $tmp->target,
-                NewPixelWand("rgb($r,$g,$b)"),
+                NewPixelWand($color->imagick()),
                 $angle
                 );
 
@@ -261,6 +260,44 @@ Class Pitlib_Driver_Magickwand Extends Pitlib_Driver {
      */
     protected Function __flop(Pitlib_Tmp $tmp) {
         return MagickFlopImage($tmp->target);
+    }
+	
+	/**
+     * Make rounded corners to the image
+     * 
+     * @param integer      $radius   radius of the rounded corner
+     * @param Pitlib_Color $color    background color
+     * @return Pitlib_Image
+     *
+     * @access public
+     */
+    protected function __roundedCorner (Pitlib_Tmp $tmp, $radius,
+			Pitlib_Color $color) {
+        
+		MagickSetImageBackgroundColor($tmp->target, NewPixelWand($color->imagick()));
+		
+		$_ = NewDrawingWand();
+		$pixel_wand=NewPixelWand();
+		PixelSetColor($pixel_wand,"black");
+		DrawSetFillColor($_,$pixel_wand);
+		DrawSetStrokeColor($_, $pixel_wand);
+		DrawSetStrokeAntialias($_);
+		DrawRoundRectangle($_, 0, 0, $tmp->image_width, $tmp->image_height, $radius, $radius);
+		
+		$pixel_wand=NewPixelWand();
+		PixelSetColor($pixel_wand,$color->imagick());
+		list($r, $g, $b, $a) = $color->get();
+		PixelSetOpacity($pixel_wand, (float)$a / 255);
+		$_i = NewMagickWand();
+		MagickNewImage($_i, $tmp->image_width, $tmp->image_height, $pixel_wand);
+		MagickDrawImage($_i, $_);
+		
+		MagickCompositeImage($tmp->target, $_i, MW_CopyOpacityCompositeOp, 0, 0);
+		
+		DestroyMagickWand($_i);
+		DestroyDrawingWand($_);
+		
+		return true;
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 

@@ -1,7 +1,13 @@
+Version 0.3.0 (2010-02-10)
+
+* RoundedCorner function
+* Corrected bug in detection of shell programs
+* Modified order of driver detection
+
 Version 0.2.0 (2009-08-14)
 
 * GraphicsMagick Shell driver
-* Target filename now is set by save function instead of Pitlib::image.
+* Target filename now is set by save function instead of Pitlib::image
 * Removed static image manipulation functions from Pitlib class.
 * Added exifRotate function.
 

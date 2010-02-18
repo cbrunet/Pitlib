@@ -8,7 +8,7 @@
  *     GNU Lesser General public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Driver
- * @version 0.2.0
+ * @version 0.3.0
  *
  * @todo Support GD file format
  */
@@ -222,8 +222,8 @@ class Pitlib_Driver_Gd Extends Pitlib_Driver {
             }
         }
 
-        list($r, $g, $b) = $color->get();
-        $rotate_color = imageColorAllocate($tmp->target, $r, $g, $b); 
+        list($r, $g, $b, $a) = $color->get();
+        $rotate_color = imageColorAllocateAlpha($tmp->target, $r, $g, $b, $a / 2); 
 
         if ($t = imageRotate($tmp->target, $angle * -1, $rotate_color)) {
             imageDestroy($tmp->target);
@@ -296,7 +296,7 @@ class Pitlib_Driver_Gd Extends Pitlib_Driver {
         // Fill with color
         $t = $this->__canvas ($dx, $dy, $color);
         list ($r, $g, $b, $a) = $color->get ();
-        $bgcolor = imagecolorallocatealpha ($t->target, $r, $g, $b, $a);
+        $bgcolor = imagecolorallocatealpha ($t->target, $r, $g, $b, $a / 2);
 
         $bicubic = true;
 
@@ -424,6 +424,41 @@ class Pitlib_Driver_Gd Extends Pitlib_Driver {
         $tmp->image_height = $height;
 
         return $r;
+    }
+	
+	/**
+     * Make rounded corners to the image
+     * 
+     * @param integer      $radius   radius of the rounded corner
+     * @param Pitlib_Color $color    background color
+     * @return Pitlib_Image
+     *
+     * @access public
+     */
+    protected function __roundedCorner (Pitlib_Tmp $tmp, $radius,
+			Pitlib_Color $color) {
+        
+		$corner_image = imagecreatetruecolor($radius, $radius);
+		
+		//$clear_colour = imagecolorallocate($corner_image, 0, 0, 0);
+		list ($r, $g, $b, $a) = $color->get ();
+        $bgcolor = imagecolorallocatealpha ($tmp->target, $r, $g, $b, $a / 2);
+		
+		imagealphablending($tmp->target, false);
+		
+		imagearc($tmp->target, $radius-1, $radius-1, $radius*2+1, $radius*2+1, 180, 270, $bgcolor); 
+		imagefilltoborder($tmp->target, 0, 0, $bgcolor, $bgcolor); 
+
+		imagearc($tmp->target, $tmp->image_width-1 - $radius, $radius-1, $radius*2+1, $radius*2+1, 270, 0, $bgcolor); 
+		imagefilltoborder($tmp->target, $tmp->image_width-1, 0, $bgcolor, $bgcolor); 
+
+		imagearc($tmp->target, $radius-1, $tmp->image_height-1 - $radius, $radius*2+1, $radius*2+1, 90, 180, $bgcolor); 
+		imagefilltoborder($tmp->target, 0, $tmp->image_height-1, $bgcolor, $bgcolor); 
+
+		imagearc($tmp->target, $tmp->image_width-1 - $radius, $tmp->image_height-1 - $radius, $radius*2+1, $radius*2+1, 0, 90, $bgcolor); 
+		imagefilltoborder($tmp->target, $tmp->image_height-1, $tmp->image_height-1, $bgcolor, $bgcolor); 
+		
+		return true;
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 

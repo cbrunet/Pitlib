@@ -8,7 +8,7 @@
  *    GNU Lesser General public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Driver
- * @version 0.2.0
+ * @version 0.3.0
  */
 
 /////////////////////////////////////////////////////////////////////////////
@@ -542,6 +542,26 @@ abstract Class Pitlib_Driver {
     public function flop(Pitlib_Tmp $tmp) {
         return $this->__flop($tmp);
     }
+	
+	/**
+     * Make rounded corners to the image
+     * 
+     * @param integer      $radius   radius of the rounded corner
+     * @param Pitlib_Color $color    background color
+     * @return Pitlib_Image
+     *
+     * @access public
+     */
+    public function roundedCorner (Pitlib_Tmp $tmp, $radius,
+			Pitlib_Color $color = null) {
+			
+		if (!isset($color)) {
+            $color = new Pitlib_Color;
+            $color->set(255, 255, 255, 255);
+        }
+		
+        return $this->__roundedCorner($tmp, $radius, $color);
+    }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 
@@ -599,7 +619,7 @@ abstract Class Pitlib_Driver {
      */
     protected function __copy(Pitlib_Tmp $tmp_target,
             Pitlib_Tmp $tmp_source, $destination_x, $destination_y) {
-        throw new Pitlib_Exception_OperationNotSupported;
+        throw new Pitlib_Exception_OperationNotSupported('copy');
     }
 
     /**
@@ -613,7 +633,7 @@ abstract Class Pitlib_Driver {
      * @abstract
      */
     protected function __resize(Pitlib_Tmp $tmp, $width, $height) {
-        throw new Pitlib_Exception_OperationNotSupported;
+        throw new Pitlib_Exception_OperationNotSupported('resize');
     }
 
     /**
@@ -625,7 +645,7 @@ abstract Class Pitlib_Driver {
      * @abstract
      */
     protected function __grayscale(Pitlib_Tmp $tmp) {
-        throw new Pitlib_Exception_OperationNotSupported;
+        throw new Pitlib_Exception_OperationNotSupported('grayscale');
     }
 
     /**
@@ -640,7 +660,7 @@ abstract Class Pitlib_Driver {
      */
     protected function __rotate(Pitlib_Tmp $tmp, $angle,
             Pitlib_Color $color) {
-        throw new Pitlib_Exception_OperationNotSupported;
+        throw new Pitlib_Exception_OperationNotSupported('rotate');
     }
 
     /**
@@ -654,7 +674,7 @@ abstract Class Pitlib_Driver {
      * @abstract
      */
     protected function __canvas($width, $height, Pitlib_Color $color) {
-        throw new Pitlib_Exception_OperationNotSupported;
+        throw new Pitlib_Exception_OperationNotSupported('canvas');
     }
 
     /**
@@ -671,7 +691,7 @@ abstract Class Pitlib_Driver {
      */
     protected function __crop(Pitlib_Tmp $tmp, $x, $y,
             $width, $height) {
-        throw new Pitlib_Exception_OperationNotSupported;
+        throw new Pitlib_Exception_OperationNotSupported('crop');
     }
 
     /**
@@ -683,7 +703,7 @@ abstract Class Pitlib_Driver {
      * @abstract
      */
     protected function __flip(Pitlib_Tmp $tmp) {
-        throw new Pitlib_Exception_OperationNotSupported;
+        throw new Pitlib_Exception_OperationNotSupported('flip');
     }
 
     /**
@@ -695,7 +715,21 @@ abstract Class Pitlib_Driver {
      * @abstract
      */
     protected function __flop(Pitlib_Tmp $tmp) {
-        throw new Pitlib_Exception_OperationNotSupported;
+        throw new Pitlib_Exception_OperationNotSupported('flop');
+    }
+	
+	/**
+     * Make rounded corners to the image
+     * 
+     * @param integer      $radius   radius of the rounded corner
+     * @param Pitlib_Color $color    background color
+     * @return Pitlib_Image
+     *
+     * @access public
+     */
+    protected function __roundedCorner (Pitlib_Tmp $tmp, $radius,
+			Pitlib_Color $color) {
+        throw new Pitlib_Exception_OperationNotSupported('roundedCorner');
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 

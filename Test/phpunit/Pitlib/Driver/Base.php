@@ -299,6 +299,25 @@ abstract class Test_Pitlib_Driver_Base extends Test_Pitlib_Base {
         $this->assertTmpDirEmpty ();
     }
 
+    function testRoundedCorner () {
+        $this->emptyTmpDir ();
+
+        $color = Pitlib::color (255, 0, 255, 255);
+        try {
+            Pitlib::image (SOURCE.'png')
+            ->roundedCorner (25, $color)
+            ->save (TARGET.'gif');
+        }
+        catch (Pitlib_Exception_OperationNotSupported $e) {
+            $this->markTestSkipped ();
+            return;
+        }
+        copy (TARGET.'gif', RESULT_DIR. Pitlib::driver ()->name ().'.roundedCorner.gif');
+
+        unlink (TARGET.'gif');
+        $this->assertTmpDirEmpty ();
+    }
+
     //--------------------------------------------------------------------------
 
     function doConvertTest ($src, $dst, $type=null) {

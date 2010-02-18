@@ -8,7 +8,7 @@
  *     GNU Lesser General Public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Driver
- * @version 0.2.0
+ * @version 0.3.0
  */
 
 /////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ abstract class Pitlib_Driver_Shell Extends Pitlib_Driver {
      * @var string
      * @access private
      */
-    private $__exec = '';
+    protected $__exec = '';
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 
@@ -75,16 +75,13 @@ abstract class Pitlib_Driver_Shell Extends Pitlib_Driver {
         $p = explode(PATH_SEPARATOR, $path);
         $p[] = getcwd();
 
-        $ext = array();		
+        $ext = array();
         if (OS_WINDOWS) {
             $ext = getenv('PATHEXT')
                 ? explode(PATH_SEPARATOR, getenv('PATHEXT'))
                 : array('.exe','.bat','.cmd','.com');
-
-            // extension ?
-            //
-            array_unshift($ext, '');
         }
+        array_unshift($ext, '');
 
         // walk the variants
         //
@@ -100,7 +97,6 @@ abstract class Pitlib_Driver_Shell Extends Pitlib_Driver {
                 }
             }
         }
-
         return $executable;
     }
 
@@ -152,7 +148,7 @@ abstract class Pitlib_Driver_Shell Extends Pitlib_Driver {
      * @return boolean
      * @access protected
      * @abstract
-     */	
+     */ 
     protected function __destroy_source(Pitlib_Tmp $tmp) {
         return @unlink($tmp->source);
     }
@@ -164,14 +160,14 @@ abstract class Pitlib_Driver_Shell Extends Pitlib_Driver {
      * @return boolean
      * @access protected
      * @abstract
-     */	
+     */ 
     protected function __destroy_target(Pitlib_Tmp $tmp) {
         return @unlink($tmp->target);
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 
-    //--end-of-class--	
+    //--end-of-class--  
 }
 
 /////////////////////////////////////////////////////////////////////////////

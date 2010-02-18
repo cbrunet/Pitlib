@@ -8,7 +8,7 @@
  *    GNU Lesser General public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Core
- * @version 0.2.0
+ * @version 0.3.0
  */
 
 /////////////////////////////////////////////////////////////////////////////
@@ -700,6 +700,28 @@ class Pitlib_Image {
         $this->operation (
                 array ($d, __FUNCTION__),
                 array ('tmp' => null)
+                );
+        return $this;
+    }
+	
+	/**
+     * Make rounded corners to the image
+     * 
+     * @param integer      $radius   radius of the rounded corner
+     * @param Pitlib_Color $color    background color
+     * @return Pitlib_Image
+     *
+     * @access public
+     */
+    public function roundedCorner ($radius, $color=null) {
+        $d = Pitlib::driver ();
+        $this->operation(
+                array ($d, __FUNCTION__),
+                array (
+                    'tmp'    => null,
+                    'radius' => $radius,
+                    'color'  => $color,
+                    )
                 );
         return $this;
     }

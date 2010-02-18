@@ -12,7 +12,7 @@
  *
  * @package Pitlib
  * @subpackage Pitlib.Exception
- * @version 0.2.0
+ * @version 0.3.0
  */
 
 /**
@@ -32,7 +32,10 @@ class Pitlib_Exception extends Exception {
  * @subpackage Pitlib.Exception
  */
 class Pitlib_Exception_OperationNotSupported extends Pitlib_Exception {
-
+    function __construct($message, $code = 0) {
+        parent::__construct($message .
+            ' operation not supported with this driver.', $code);
+    }
 }
 
 ?>

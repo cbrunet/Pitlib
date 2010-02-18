@@ -8,7 +8,7 @@
  *    GNU Lesser General Public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Driver
- * @version 0.2.0
+ * @version 0.3.0
  *
  * @todo Set compression for jpeg and png
  */
@@ -203,8 +203,7 @@ class Pitlib_Driver_Imagick_Ext extends Pitlib_Driver {
         // rectangular rotates are OK
         //
         //if (($angle % 90) == 0) {
-            list ($r, $g, $b) = $color->get ();
-            if ($tmp->target->rotateImage (new ImagickPixel ("rgb($r, $g, $b)"), $angle)) {
+            if ($tmp->target->rotateImage (new ImagickPixel ($color->imagick()), $angle)) {
                 $tmp->image_width = $tmp->target->getImageWidth ();
                 $tmp->image_height = $tmp->target->getImageHeight ();
                 return true;
@@ -249,6 +248,22 @@ class Pitlib_Driver_Imagick_Ext extends Pitlib_Driver {
      */
     protected Function __flop(Pitlib_Tmp $tmp) {
         return $tmp->target->flopImage ();
+    }
+	
+	/**
+     * Make rounded corners to the image
+     * 
+     * @param integer      $radius   radius of the rounded corner
+     * @param Pitlib_Color $color    background color
+     * @return Pitlib_Image
+     *
+     * @access public
+     */
+    protected function __roundedCorner (Pitlib_Tmp $tmp, $radius,
+			Pitlib_Color $color) {
+        
+		$tmp->target->setImageBackgroundColor(new ImagickPixel ($color->imagick()));
+		return $tmp->target->roundCorners($radius, $radius);
     }
 
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 

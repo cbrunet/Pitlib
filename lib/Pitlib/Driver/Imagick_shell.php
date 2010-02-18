@@ -8,7 +8,7 @@
  *    GNU Lesser General Public License Version 2.1
  * @package Pitlib
  * @subpackage Pitlib.Driver
- * @version 0.2.0
+ * @version 0.3.0
  *
  * @todo set compression for jpeg and png
  */
@@ -127,8 +127,10 @@ class Pitlib_Driver_Imagick_Shell extends Pitlib_Driver_Shell {
             $this->__exec = PITLIB_IMAGICK_SHELL_PATH;
         }
         else {
-            $this->__exec = dirname($this->__exec('convert')) . 
-                DIRECTORY_SEPARATOR;
+            $this->__exec = $this->__exec('convert');
+			if (FALSE !== $this->__exec) {
+				$this->__exec = dirname($this->__exec) . DIRECTORY_SEPARATOR;
+			}
         }
     }
 
@@ -441,6 +443,33 @@ class Pitlib_Driver_Imagick_Shell extends Pitlib_Driver_Shell {
                 " -flop "
                 . escapeshellarg(realpath($tmp->target))
                 . " "
+                . escapeshellarg(realpath($tmp->target))
+                );
+
+        exec($cmd, $result, $errors);
+        return ($errors == 0);
+    }
+	
+	/**
+     * Make rounded corners to the image
+     * 
+     * @param integer      $radius   radius of the rounded corner
+     * @param Pitlib_Color $color    background color
+     * @return Pitlib_Image
+     *
+     * @access public
+     */
+    protected function __roundedCorner (Pitlib_Tmp $tmp, $radius,
+			Pitlib_Color $color) {
+        $cmd = $this->__command(
+                'convert',
+				escapeshellarg(realpath($tmp->target))
+                . " \\( +clone -gamma 0 -draw 'fill white roundRectangle 0,0 "
+				. $tmp->image_width . "," . $tmp->image_height . " "
+				. $radius . "," . $radius . "'"
+                . " \\) +matte -compose CopyOpacity"
+				. " -background '" . $color->imagick() . "'"
+				. " -composite "
                 . escapeshellarg(realpath($tmp->target))
                 );
 
